@@ -8,6 +8,7 @@ interface TaskState {
   fetchLoading: 'idle' | 'pending' | 'success' | 'failure',
   addLoading: 'idle' | 'pending' | 'success' | 'failure',
   removeLoading: 'idle' | 'pending' | 'success' | 'failure',
+  editLoading: 'idle' | 'pending' | 'success' | 'failure',
 }
 
 const initialState: TaskState = {
@@ -15,6 +16,7 @@ const initialState: TaskState = {
   fetchLoading: 'idle',
   addLoading: 'idle',
   removeLoading: 'idle',
+  editLoading: 'idle',
 }
 
 export const taskSlice = createSlice({
@@ -54,13 +56,13 @@ export const taskSlice = createSlice({
     });
 
     builder.addCase(editTask.pending, (state) => {
-      state.fetchLoading = 'pending';
+      state.editLoading = 'pending';
     });
     builder.addCase(editTask.fulfilled, (state) => {
-      state.fetchLoading = 'success';
+      state.editLoading = 'success';
     });
     builder.addCase(editTask.rejected, (state) => {
-      state.fetchLoading = 'failure';
+      state.editLoading = 'failure';
     });
   }
 });

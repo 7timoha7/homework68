@@ -11,10 +11,11 @@ interface Props {
 
 const TaskCard: React.FC<Props> = ({task}) => {
 
-  const [taskState, setTaskState] = useState<TaskType>(task)
+  const [taskState, setTaskState] = useState<TaskType>(task);
 
   const dispatch = useAppDispatch();
   const loadingState = useAppSelector(state => state.task.removeLoading);
+  const loadingStateEdit = useAppSelector(state => state.task.editLoading);
 
   const onClickDelete = async () => {
     const id: string = task.id;
@@ -43,8 +44,9 @@ const TaskCard: React.FC<Props> = ({task}) => {
         <p>{task.title}</p>
       </div>
       <div>
-        <input type="checkbox" checked={taskState.condition} onChange={onChangeTaskCheckbox}/>
-        <span>Done</span>
+        {loadingStateEdit === 'pending' ?
+          <PreloaderBtn/> :
+          <input className="checkBox" type="checkbox" checked={taskState.condition} onChange={onChangeTaskCheckbox}/>}
       </div>
       <div>
         {loadingState === 'pending' ?
