@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {TaskType} from "../../types";
-import {useAppDispatch} from "../../App/hooks";
+import {useAppDispatch, useAppSelector} from "../../App/hooks";
 import {deleteTask, editTask, fetchTask} from "../../containers/App/taskThunks";
+import "./TaskCard.css";
+import PreloaderBtn from "../PreloaderBtn/PreloaderBtn";
 
 interface Props {
   task: TaskType;
@@ -12,6 +14,7 @@ const TaskCard: React.FC<Props> = ({task}) => {
   const [taskState, setTaskState] = useState<TaskType>(task)
 
   const dispatch = useAppDispatch();
+  const loadingState = useAppSelector(state => state.task.removeLoading);
 
   const onClickDelete = async () => {
     const id: string = task.id;
@@ -35,7 +38,7 @@ const TaskCard: React.FC<Props> = ({task}) => {
   }
 
   return (
-    <div>
+    <div className="cardBox">
       <div>
         <p>{task.title}</p>
       </div>
@@ -44,7 +47,9 @@ const TaskCard: React.FC<Props> = ({task}) => {
         <span>Done</span>
       </div>
       <div>
-        <button onClick={onClickDelete}>Delete</button>
+        {loadingState === 'pending' ?
+          <button disabled className="btnDelete2" onClick={onClickDelete}>{<PreloaderBtn/>}</button> :
+          <button className="btnDelete" onClick={onClickDelete}>Delete</button>}
       </div>
     </div>
   );

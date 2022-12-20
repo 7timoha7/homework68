@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {TaskMutation} from "../../types";
-import {useAppDispatch} from "../../App/hooks";
+import {useAppDispatch, useAppSelector} from "../../App/hooks";
 import {createTask, fetchTask} from "../../containers/App/taskThunks";
+import "./AddNewTaskForm.css";
+import PreloaderBtn from "../PreloaderBtn/PreloaderBtn";
 
 const AddNewTaskForm = () => {
   const [taskTextState, setTaskTextState] = useState<TaskMutation>({
@@ -10,6 +12,7 @@ const AddNewTaskForm = () => {
   });
 
   const dispatch = useAppDispatch();
+  const loadingStateAdd = useAppSelector(state => state.task.addLoading);
 
   const onChangeTask = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text: string = e.target.value;
@@ -20,13 +23,16 @@ const AddNewTaskForm = () => {
     e.preventDefault();
     await dispatch(createTask(taskTextState));
     await dispatch(fetchTask());
+    setTaskTextState(prev => ({...prev, title: ''}));
   }
 
   return (
-    <div>
+    <div className="newTaskBox">
       <form onSubmit={onSubmitForm}>
-        <input required onChange={onChangeTask} name='title' type="text"/>
-        <button>Add</button>
+        <input className="input" required value={taskTextState.title} onChange={onChangeTask} name='title' type="text"/>
+        {loadingStateAdd === 'pending' ?
+          <button disabled className="btnSubmit2">{<PreloaderBtn/>}</button> :
+          <button className="btnSubmit">Add</button>}
       </form>
     </div>
   );

@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+    background: gray;
+}
+
+.App {
+    margin: 30px;
+    border: 5px solid black;
+    border-radius: 15px;
+    
+
+}
