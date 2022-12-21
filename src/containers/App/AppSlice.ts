@@ -7,16 +7,16 @@ interface TaskState {
   item: TaskType[];
   fetchLoading: 'idle' | 'pending' | 'success' | 'failure',
   addLoading: 'idle' | 'pending' | 'success' | 'failure',
-  removeLoading: 'idle' | 'pending' | 'success' | 'failure',
-  editLoading: 'idle' | 'pending' | 'success' | 'failure',
+  removeLoading: false | string,
+  editLoading: false | string,
 }
 
 const initialState: TaskState = {
   item: [],
   fetchLoading: 'idle',
   addLoading: 'idle',
-  removeLoading: 'idle',
-  editLoading: 'idle',
+  removeLoading: false,
+  editLoading: false,
 }
 
 export const taskSlice = createSlice({
@@ -45,8 +45,8 @@ export const taskSlice = createSlice({
       state.addLoading = 'failure';
     });
 
-    builder.addCase(deleteTask.pending, (state) => {
-      state.removeLoading = 'pending';
+    builder.addCase(deleteTask.pending, (state, action) => {
+      state.removeLoading = action.meta.arg;
     });
     builder.addCase(deleteTask.fulfilled, (state) => {
       state.removeLoading = 'success';
@@ -55,8 +55,8 @@ export const taskSlice = createSlice({
       state.removeLoading = 'failure';
     });
 
-    builder.addCase(editTask.pending, (state) => {
-      state.editLoading = 'pending';
+    builder.addCase(editTask.pending, (state, action) => {
+      state.editLoading = action.meta.arg.id;
     });
     builder.addCase(editTask.fulfilled, (state) => {
       state.editLoading = 'success';

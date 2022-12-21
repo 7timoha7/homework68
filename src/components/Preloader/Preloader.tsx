@@ -23,7 +23,6 @@ const Preloader = () => {
         <div className="cell d-6"></div>
       </div>
     </div>
-
   );
 };
 

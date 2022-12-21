@@ -44,12 +44,12 @@ const TaskCard: React.FC<Props> = ({task}) => {
         <p>{task.title}</p>
       </div>
       <div>
-        {loadingStateEdit === 'pending' ?
+        {loadingStateEdit === taskState.id ?
           <PreloaderBtn/> :
           <input className="checkBox" type="checkbox" checked={taskState.condition} onChange={onChangeTaskCheckbox}/>}
       </div>
       <div>
-        {loadingState === 'pending' ?
+        {loadingState === taskState.id ?
           <button disabled className="btnDelete2" onClick={onClickDelete}>{<PreloaderBtn/>}</button> :
           <button className="btnDelete" onClick={onClickDelete}>Delete</button>}
       </div>
